@@ -20,8 +20,19 @@ export default function ExpenseModal({ isOpen, onClose, onRefresh, editData = nu
       return[];
     }
   };
-
-
+  const hnaldeFlagAction =async(expenseId, action)=>{
+    try{
+      const response=await axios.patch(api/expense/flags/{expenseId}, {
+        action: action
+      }
+    );
+      console.log("Flags Updated",response.data);
+      return response.data;
+    }
+    catch(error){
+      console.log("Error in updating",error);
+    }
+  }
   useEffect(() => {
     if (editData) {
       setFormData({
