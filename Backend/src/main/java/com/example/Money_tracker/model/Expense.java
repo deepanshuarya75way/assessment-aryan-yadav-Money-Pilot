@@ -14,8 +14,31 @@ public class Expense {
     private LocalDate date;
     private String userEmail;
     private String title;
+    private String reason;
+    private String status;
 
+    
 
+     public FlaggedItem(String expenseId, String description, BigDecimal amount, String reason) {
+        this.expenseId = expenseId;
+        this.description = description;
+        this.amount = amount;
+        this.reason = reason;
+        this.status = "PENDING";
+    }
+
+    public String getreason(){
+        return reason;
+    }
+    public void setReason(String reason){
+        this.reason=reason;
+    }
+    public String getStatus(){
+        return status;
+    }
+    public void setStatus(String status){
+        this.status=status;
+    }
     public Double getAmount() {
         return amount;
     }

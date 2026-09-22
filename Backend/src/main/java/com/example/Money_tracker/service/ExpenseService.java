@@ -85,6 +85,33 @@ public class ExpenseService {
         }
         return false;
     }
+    public class ExpenseReviewsService{
+        private static final BigDecimal LUXURY_THRESHOLD =new BigDecimal("5000.00");
+        public List<FlaggedItem> reviewExpenses(List<Expense> expenses){
+            List<FlaggedItem> flaggedItems=new ArrayList<>();
+            for(Expense expense: expenses){
+                String reason=null;
+
+                if(expense.amount().compareTo(LUXURY_THRESHOLD)>0){
+                    reason ="Ammount Exceed Normal Threshold";
+                }
+                else if(expense.description.toLowecase().matches(*.*(test|fake|placehold|secret|fund))){
+                    reason="Fraud or unusal";
+                }
+                else if(expense.amount().compareTo(BigDecimal.Zero)<=0){
+                    reason="Expense Amount must be greater than zero";
+                }
+                if(reason!=null){
+                    flaggedItems.add(new FlaggedItem(
+                        expense.id(),expense.description(),expense.amount,reason));
+                    
+                }
+            }
+
+            }
+            return flaggedItems;
+        }
+    }
 
     public List<Expense> getMonthlyExpenses(String email, String month) {
         YearMonth yearMonth = YearMonth.parse(month);

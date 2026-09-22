@@ -16,6 +16,30 @@ public class ExpenseController {
 
     @Autowired
     private ExpenseService expenseService;
+    private final ExpenseReviewsService reviewService;
+
+    public ExpenseController(ExpenseReviewsService reviewService){
+        this.reviewService=reviewService;
+    }
+    @PostMapping("/review")
+        public ResponseEntity<List<FlaggedItem>> reviewExpenses(@RequestBody List<Expense> expenses){
+            List<FlaggedItems> flagged=reviewService.reviewExpenses(expenses);
+            return ResponseEntity.ok(flagged);
+        }
+    @PatchMapping("/flags/{expenseId}")
+             public ResponseEntity<String> handleFlaggedAction(
+            @PathVariable String expenseId,
+            @RequestBody Map<String, String> payload) {
+        
+        String action = payload.get("action");
+        
+        if (!"DISMISS".equalsIgnoreCase(action) && !"CONFIRMED".equalsIgnoreCase(action)) {
+            return ResponseEntity.badRequest().body("Invalid action. Use 'DISMISS' or 'CONFIRMED'.");
+        }
+        return ResponseEntity.ok("flag status updated to" +action.toUpperCase()+"for Expense ID :"+expenseId)
+    }
+
+    
 
     @PostMapping("/add")
     public ResponseEntity<Expense> addExpense(@RequestBody Expense expense) {
