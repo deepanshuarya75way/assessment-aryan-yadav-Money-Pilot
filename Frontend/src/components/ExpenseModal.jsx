@@ -10,6 +10,17 @@ export default function ExpenseModal({ isOpen, onClose, onRefresh, editData = nu
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const getFlaggedExpenses =async()=>{
+    try{
+      axios.get('api/expense/review')
+      console.log("flagged expenses:", response.data)
+      return response.data;
+    }catch(error){
+      console.log("Error fetching review",error);
+      return[];
+    }
+  };
+
 
   useEffect(() => {
     if (editData) {
